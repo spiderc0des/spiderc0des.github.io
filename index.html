@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Abdulrahman Yusuf — spiderc0des</title>
-  <meta name="description" content="Full-stack software engineer, AI builder & cybersecurity specialist based in Abuja, Nigeria.">
+  <meta name="description" content="AI engineer based in Abuja, Nigeria, building agents and automation with a full-stack foundation and a cybersecurity edge.">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -636,6 +636,87 @@
     @media (prefers-reduced-motion:reduce) {
       *, *::before, *::after { animation-duration:0.01ms!important; transition-duration:0.01ms!important; }
     }
+
+    /* ── ADDITIONS (AI projects) ─────── */
+    :root { color-scheme: dark; }
+
+    .proj-group-note {
+      font-size: 0.88rem;
+      color: var(--mid);
+      line-height: 1.8;
+      max-width: 640px;
+      margin: -0.4rem 0 1.4rem;
+    }
+
+    .proj-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .proj-week {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--sky);
+      border: 1px solid var(--bh);
+      padding: 0.15rem 0.5rem;
+      border-radius: 3px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .proj-card.feature { grid-column: 1 / -1; }
+    .proj-card.feature .proj-desc { max-width: 760px; }
+
+    .proj-points {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      font-size: 0.84rem;
+      color: var(--mid);
+      line-height: 1.7;
+    }
+    .proj-points li { padding-left: 1.1rem; position: relative; }
+    .proj-points li::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: var(--sky);
+      font-family: var(--mono);
+    }
+
+    .proj-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+    .proj-tags .pill { font-size: 0.68rem; padding: 0.15rem 0.5rem; }
+
+    .proj-links { display: flex; gap: 1rem; }
+
+    .l-dot.ts { background: #3178c6; }
+    .l-dot.n8n { background: #ea4b71; }
+    .l-dot.py { background: #fbbf24; }
+
+    .badge-prog {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      padding: 0.15rem 0.5rem;
+      border: 1px solid var(--bh);
+      color: var(--sky);
+      border-radius: 3px;
+      text-transform: uppercase;
+    }
+
+    .skill-cat.ai { border-color: var(--bh); }
+
+    @media (max-width:620px) {
+      nav { padding: 0 1rem; }
+      #hero, .sw { padding-left: 1rem; padding-right: 1rem; }
+    }
   </style>
 </head>
 <body>
@@ -645,10 +726,10 @@
   <a href="#hero" class="nav-logo">spiderc0des</a>
   <ul class="nav-links">
     <li><a href="#about">about</a></li>
-    <li><a href="#experience">experience</a></li>
-    <li><a href="#skills">skills</a></li>
-    <li><a href="#certifications">certs</a></li>
     <li><a href="#projects">projects</a></li>
+    <li><a href="#skills">skills</a></li>
+    <li><a href="#experience">experience</a></li>
+    <li><a href="#certifications">certs</a></li>
     <li><a href="#contact">contact</a></li>
   </ul>
 </nav>
@@ -658,16 +739,17 @@
 <!-- HERO -->
 <section id="hero">
   <div class="hero-left">
-    <p class="hero-eyebrow">// software engineer · ai builder · security researcher</p>
+    <p class="hero-eyebrow">// ai engineer · full-stack · security</p>
     <h1 class="hero-name">Abdulrahman<br><em>Yusuf</em></h1>
     <div class="hero-role">
       <span id="typed-text"></span><span class="cur"></span>
     </div>
     <p class="hero-desc">
-      Full-stack engineer with a cybersecurity edge and an AI toolkit. I build secure, scalable systems — and think like an attacker to defend like an engineer.
+      I build AI agents and automation systems on Claude, backed by a full-stack foundation and a cybersecurity edge. My systems keep a human in control: the model can't spend, send, or invent anything it shouldn't.
     </p>
     <div class="hero-actions">
-      <a href="https://flowcv.com/resume/o411fkmb3k" target="_blank" rel="noopener" class="btn btn-primary">Resume ↗</a>
+      <a href="#projects" class="btn btn-primary">See AI Projects</a>
+      <a href="https://flowcv.com/resume/o411fkmb3k" target="_blank" rel="noopener" class="btn btn-ghost">Resume ↗</a>
       <a href="https://github.com/spiderc0des" target="_blank" rel="noopener" class="btn btn-ghost">GitHub</a>
       <a href="https://linkedin.com/in/spidercodes" target="_blank" rel="noopener" class="btn btn-ghost">LinkedIn</a>
     </div>
@@ -690,11 +772,15 @@
   <h2 class="s-h">Who I <span>Am</span></h2>
   <div class="about-grid">
     <div class="about-body">
-      <p>I'm a software engineer based in <strong>Abuja, Nigeria</strong>, with a B.Sc. in Cybersecurity from the Air Force Institute of Technology. I specialise in building full-stack, AI-integrated systems that are secure by design — not as an afterthought.</p>
-      <p>Currently contracting with <strong>Tight Line Software</strong>, I work across the stack: Django and Laravel on the backend, React on the frontend, and Kubernetes via Rancher for infrastructure. I've been deepening my AI engineering practice — building agents, working with the Claude API, and integrating LLMs into production workflows.</p>
-      <p>I'm drawn to the intersection of engineering rigour and adversarial thinking — building things that hold up against people who want to break them.</p>
+      <p>I'm a software engineer based in <strong>Abuja, Nigeria</strong>, focused on <strong>AI agents and LLM-powered automation</strong>. I hold a B.Sc. in Cybersecurity from the Air Force Institute of Technology, and I build AI systems that are secure by design, not as an afterthought.</p>
+      <p>I've shipped AI systems: an n8n invoice pipeline, an operations reporting system, a proposal engine, a content research and publishing agent, and a lead research agent built on the <strong>Claude Agent SDK</strong>. Each one has a human approval gate enforced in the database, spend limits that hold even if the model misbehaves, and Claude output checked against what the system actually calculated.</p>
+      <p>I'm drawn to the intersection of engineering rigour and adversarial thinking. That shows up in my AI work too: prompt-injection guards, grounding checks, and agents that have no tool for the things they must never do.</p>
     </div>
     <div class="stat-stack">
+      <div class="stat-item">
+        <span class="stat-n">5</span>
+        <span class="stat-l">AI systems shipped</span>
+      </div>
       <div class="stat-item">
         <span class="stat-n">3+</span>
         <span class="stat-l">years of professional engineering</span>
@@ -704,12 +790,248 @@
         <span class="stat-l">companies, remote across 3 countries</span>
       </div>
       <div class="stat-item">
-        <span class="stat-n">17+</span>
-        <span class="stat-l">public GitHub repositories</span>
-      </div>
-      <div class="stat-item">
         <span class="stat-n">∞</span>
         <span class="stat-l">things still left to learn</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<div class="sw" id="projects">
+  <p class="s-eye">projects</p>
+  <h2 class="s-h">What I've <span>Built</span></h2>
+
+  <p class="proj-group-label">AI Agents &amp; Automation</p>
+  <div class="proj-grid">
+
+    <div class="proj-card feature">
+      <div class="proj-top">
+        <p class="proj-name">Lead Agent — AI Lead Research &amp; Outreach</p>
+      </div>
+      <p class="proj-desc">An autonomous research agent built on the Claude Agent SDK. You give it a qualification objective; it refines that into ICP criteria, discovers companies through Apify, reads their websites with Firecrawl, qualifies each one from evidence, and drafts a 3-step cold email sequence plus a LinkedIn message per qualified lead. Everything lands in Supabase for human review. It never finds personal emails and never sends anything, because no tool in the session can.</p>
+      <div class="proj-tags">
+        <span class="pill">Claude Agent SDK</span><span class="pill">Agent Skills</span><span class="pill">Next.js</span><span class="pill">Supabase</span><span class="pill">Apify</span><span class="pill">Firecrawl</span><span class="pill">Docker</span><span class="pill">Railway</span>
+      </div>
+      <div class="proj-foot">
+        <span class="proj-lang"><span class="l-dot ts"></span> TypeScript</span>
+        <span class="proj-links">
+          <a href="https://koya-lead-agent.up.railway.app" target="_blank" rel="noopener" class="proj-lk">live ↗</a>
+          <a href="https://github.com/spiderc0des/ai-lead-agent" target="_blank" rel="noopener" class="proj-lk">github ↗</a>
+        </span>
+      </div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-top">
+        <p class="proj-name">Content Agent</p>
+      </div>
+      <p class="proj-desc">Turns a raw idea or source URL into reviewed, channel-ready content for LinkedIn, X, and an email newsletter. A server-side pipeline researches, plans, writes several distinct options, scores them against a rubric, and auto-revises up to twice. Then it stops at a human approval gate that nothing gets past.</p>
+      <div class="proj-tags">
+        <span class="pill">Claude API</span><span class="pill">Next.js 15</span><span class="pill">Supabase</span><span class="pill">OAuth</span><span class="pill">Vercel</span>
+      </div>
+      <div class="proj-foot">
+        <span class="proj-lang"><span class="l-dot ts"></span> TypeScript</span>
+        <span class="proj-links">
+          <a href="https://koya-content-agent.vercel.app" target="_blank" rel="noopener" class="proj-lk">live ↗</a>
+          <a href="https://github.com/spiderc0des/ai-content-agent" target="_blank" rel="noopener" class="proj-lk">github ↗</a>
+        </span>
+      </div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-top">
+        <p class="proj-name">Proposal Engine</p>
+      </div>
+      <p class="proj-desc">A discovery-call intake becomes a six-section client proposal written by Claude, edited section by section, and approved by a human before it can go out. It's then published as a client link and live-rendered PDF, emailed, and tracked through accept or decline, with one automatic reminder.</p>
+      <div class="proj-tags">
+        <span class="pill">Claude Sonnet</span><span class="pill">Structured Outputs</span><span class="pill">Next.js</span><span class="pill">Postgres</span><span class="pill">React-PDF</span>
+      </div>
+      <div class="proj-foot">
+        <span class="proj-lang"><span class="l-dot ts"></span> TypeScript</span>
+        <span class="proj-links">
+          <a href="https://ai-proposal-app.vercel.app/" target="_blank" rel="noopener" class="proj-lk">live ↗</a>
+          <a href="https://github.com/spiderc0des/ai-proposal-app" target="_blank" rel="noopener" class="proj-lk">github ↗</a>
+        </span>
+      </div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-top">
+        <p class="proj-name">AI Operations Reporting</p>
+      </div>
+      <p class="proj-desc">Pulls Sales (Google Sheets), Delivery (Airtable), and People Ops (API) data into n8n, calculates KPIs for several reporting periods, and has Claude write an executive summary, risks, and actions. The results feed a Streamlit dashboard.</p>
+      <div class="proj-tags">
+        <span class="pill">n8n</span><span class="pill">Claude API</span><span class="pill">Supabase</span><span class="pill">Streamlit</span><span class="pill">Airtable</span>
+      </div>
+      <div class="proj-foot">
+        <span class="proj-lang"><span class="l-dot n8n"></span> n8n · Python</span>
+        <span class="proj-links">
+          <a href="https://ai-ops-report-dashboard.streamlit.app/" target="_blank" rel="noopener" class="proj-lk">live ↗</a>
+          <a href="https://github.com/spiderc0des/ai-ops-dashboard" target="_blank" rel="noopener" class="proj-lk">github ↗</a>
+        </span>
+      </div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-top">
+        <p class="proj-name">Intelligent Invoice Processing</p>
+      </div>
+      <p class="proj-desc">Watches a Gmail inbox, pulls invoice text from PDFs or the email body, extracts structured fields with Claude, validates them, blocks duplicates, and logs every invoice to Google Sheets with a clear processing status.</p>
+      <div class="proj-tags">
+        <span class="pill">n8n</span><span class="pill">Claude Tool Use</span><span class="pill">Gmail</span><span class="pill">Google Sheets</span>
+      </div>
+      <div class="proj-foot">
+        <span class="proj-lang"><span class="l-dot n8n"></span> n8n · JavaScript</span>
+        <span class="proj-lk">private</span>
+      </div>
+    </div>
+  </div>
+
+  <p class="proj-group-label">Full Stack</p>
+  <div class="proj-grid">
+    <div class="proj-card">
+      <p class="proj-name">SmaWash — Mobile Car Wash</p>
+      <p class="proj-desc">A full-stack web application for on-demand mobile car wash bookings — service selection, scheduling, and customer management. Built with Laravel and React. Live in production.</p>
+      <div class="proj-foot">
+        <span class="proj-lang"><span class="l-dot"></span> Laravel · React</span>
+        <a href="https://smawash.com/" target="_blank" rel="noopener" class="proj-lk">live ↗</a>
+      </div>
+    </div>
+    <div class="proj-card">
+      <p class="proj-name">customer-management-system</p>
+      <p class="proj-desc">A full-stack system for managing customer records, interactions, and data. Built with a clean API layer and an intuitive frontend interface for tracking customer lifecycle.</p>
+      <div class="proj-foot">
+        <span class="proj-lang"><span class="l-dot"></span> Python</span>
+        <a href="https://github.com/spiderc0des/customer-management-system" target="_blank" rel="noopener" class="proj-lk">github ↗</a>
+      </div>
+    </div>
+    <div class="proj-card">
+      <p class="proj-name">blog_api</p>
+      <p class="proj-desc">A RESTful API backend for a blogging platform — handles posts, authors, tags, and authentication. Designed with clean resource modelling and secure endpoints.</p>
+      <div class="proj-foot">
+        <span class="proj-lang"><span class="l-dot"></span> Python</span>
+        <a href="https://github.com/spiderc0des/blog_api" target="_blank" rel="noopener" class="proj-lk">github ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <p class="proj-group-label">Security &amp; Tools</p>
+  <div class="proj-grid">
+    <div class="proj-card">
+      <p class="proj-name">port-scanner</p>
+      <p class="proj-desc">A host reconnaissance tool for discovering open ports across a target network. Useful for mapping attack surfaces and understanding network exposure before an engagement.</p>
+      <div class="proj-foot">
+        <span class="proj-lang"><span class="l-dot"></span> Python</span>
+        <a href="https://github.com/spiderc0des/port-scanner" target="_blank" rel="noopener" class="proj-lk">github ↗</a>
+      </div>
+    </div>
+    <div class="proj-card">
+      <p class="proj-name">5P1D3R-GDORKER</p>
+      <p class="proj-desc">A Google Dorking automation tool for OSINT reconnaissance. Identifies exposed data and vulnerable systems through advanced search query automation.</p>
+      <div class="proj-foot">
+        <span class="proj-lang"><span class="l-dot"></span> Python</span>
+        <a href="https://github.com/spiderc0des/5P1D3R-GDORKER" target="_blank" rel="noopener" class="proj-lk">github ↗</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SKILLS -->
+<div class="sw" id="skills">
+  <p class="s-eye">skills</p>
+  <h2 class="s-h">What I <span>Know</span></h2>
+  <div class="skills-grid">
+    <div class="skill-cat ai">
+      <p class="sk-name">AI Agents</p>
+      <div class="pills">
+        <span class="pill">Claude Agent SDK</span>
+        <span class="pill">Agent Skills</span>
+        <span class="pill">Tool Use</span>
+        <span class="pill">MCP</span>
+        <span class="pill">Prompt Design</span>
+        <span class="pill">Multi-stage Pipelines</span>
+        <span class="pill">Human-in-the-loop</span>
+        <span class="pill">Spend &amp; Budget Guards</span>
+      </div>
+    </div>
+    <div class="skill-cat ai">
+      <p class="sk-name">AI Automation</p>
+      <div class="pills">
+        <span class="pill">n8n</span>
+        <span class="pill">Apify</span>
+        <span class="pill">Firecrawl</span>
+        <span class="pill">Gmail &amp; Sheets APIs</span>
+        <span class="pill">Airtable</span>
+        <span class="pill">Streamlit</span>
+        <span class="pill">Claude Code</span>
+      </div>
+    </div>
+    <div class="skill-cat">
+      <p class="sk-name">Backend</p>
+      <div class="pills">
+        <span class="pill">Next.js Route Handlers</span>
+        <span class="pill">Laravel</span>
+        <span class="pill">Django</span>
+        <span class="pill">Django REST</span>
+        <span class="pill">RESTful APIs</span>
+        <span class="pill">Microservices</span>
+      </div>
+    </div>
+    <div class="skill-cat">
+      <p class="sk-name">Frontend</p>
+      <div class="pills">
+        <span class="pill">Next.js</span>
+        <span class="pill">React</span>
+        <span class="pill">TypeScript</span>
+        <span class="pill">JavaScript</span>
+        <span class="pill">HTML5</span>
+        <span class="pill">CSS3</span>
+      </div>
+    </div>
+    <div class="skill-cat">
+      <p class="sk-name">Databases</p>
+      <div class="pills">
+        <span class="pill">Supabase</span>
+        <span class="pill">PostgreSQL</span>
+        <span class="pill">MySQL</span>
+        <span class="pill">Redis</span>
+      </div>
+    </div>
+    <div class="skill-cat">
+      <p class="sk-name">DevOps &amp; Infra</p>
+      <div class="pills">
+        <span class="pill">Docker</span>
+        <span class="pill">Kubernetes</span>
+        <span class="pill">Rancher</span>
+        <span class="pill">Vercel</span>
+        <span class="pill">Railway</span>
+        <span class="pill">GitHub Actions</span>
+        <span class="pill">Jenkins</span>
+        <span class="pill">GitLab CI</span>
+        <span class="pill">Linux</span>
+      </div>
+    </div>
+    <div class="skill-cat">
+      <p class="sk-name">Security</p>
+      <div class="pills">
+        <span class="pill">Secure Coding</span>
+        <span class="pill">Pen Testing</span>
+        <span class="pill">Port Scanning</span>
+        <span class="pill">OSINT</span>
+      </div>
+    </div>
+    <div class="skill-cat">
+      <p class="sk-name">Languages &amp; Misc</p>
+      <div class="pills">
+        <span class="pill">TypeScript</span>
+        <span class="pill">Python</span>
+        <span class="pill">Rust</span>
+        <span class="pill">PHP</span>
+        <span class="pill">Java</span>
+        <span class="pill">Solidity</span>
+        <span class="pill">Vitest</span>
+        <span class="pill">Git</span>
       </div>
     </div>
   </div>
@@ -721,7 +1043,7 @@
   <h2 class="s-h">Where I've <span>Worked</span></h2>
   <div class="timeline">
     <div class="tl-item">
-      <p class="tl-date">Jan 2025 – Present</p>
+      <p class="tl-date">Jan 2025</p>
       <div class="tl-role-line">
         <p class="tl-role">Software Engineer</p>
         <span class="badge-contract">Contract</span>
@@ -752,83 +1074,6 @@
       </div>
       <p class="tl-co">Nigerian Army Cyber Warfare Command · Abuja</p>
       <p class="tl-desc">Contributed to national cybersecurity initiatives. Supported the development and validation of security tools and processes, gaining hands-on exposure to offensive security techniques and threat analysis in an operational military environment.</p>
-    </div>
-  </div>
-</div>
-
-<!-- SKILLS -->
-<div class="sw" id="skills">
-  <p class="s-eye">skills</p>
-  <h2 class="s-h">What I <span>Know</span></h2>
-  <div class="skills-grid">
-    <div class="skill-cat">
-      <p class="sk-name">Backend</p>
-      <div class="pills">
-        <span class="pill">Laravel</span>
-        <span class="pill">Django</span>
-        <span class="pill">Django REST</span>
-        <span class="pill">RESTful APIs</span>
-        <span class="pill">Microservices</span>
-      </div>
-    </div>
-    <div class="skill-cat">
-      <p class="sk-name">Frontend</p>
-      <div class="pills">
-        <span class="pill">React</span>
-        <span class="pill">JavaScript</span>
-        <span class="pill">HTML5</span>
-        <span class="pill">CSS3</span>
-        <span class="pill">Responsive Design</span>
-      </div>
-    </div>
-    <div class="skill-cat">
-      <p class="sk-name">AI &amp; LLMs</p>
-      <div class="pills">
-        <span class="pill">Claude Code</span>
-        <span class="pill">Claude API</span>
-        <span class="pill">MCP</span>
-        <span class="pill">LLM Integration</span>
-      </div>
-    </div>
-    <div class="skill-cat">
-      <p class="sk-name">Databases</p>
-      <div class="pills">
-        <span class="pill">PostgreSQL</span>
-        <span class="pill">MySQL</span>
-        <span class="pill">Redis</span>
-      </div>
-    </div>
-    <div class="skill-cat">
-      <p class="sk-name">DevOps &amp; Infra</p>
-      <div class="pills">
-        <span class="pill">Docker</span>
-        <span class="pill">Kubernetes</span>
-        <span class="pill">Rancher</span>
-        <span class="pill">Jenkins</span>
-        <span class="pill">GitLab CI</span>
-        <span class="pill">Linux</span>
-        <span class="pill">Bash</span>
-      </div>
-    </div>
-    <div class="skill-cat">
-      <p class="sk-name">Security</p>
-      <div class="pills">
-        <span class="pill">Secure Coding</span>
-        <span class="pill">Pen Testing</span>
-        <span class="pill">Port Scanning</span>
-        <span class="pill">OSINT</span>
-      </div>
-    </div>
-    <div class="skill-cat">
-      <p class="sk-name">Languages &amp; Misc</p>
-      <div class="pills">
-        <span class="pill">Python</span>
-        <span class="pill">Rust</span>
-        <span class="pill">PHP</span>
-        <span class="pill">Java</span>
-        <span class="pill">Solidity</span>
-        <span class="pill">Git</span>
-      </div>
     </div>
   </div>
 </div>
@@ -881,66 +1126,12 @@
   </div>
 </div>
 
-<!-- PROJECTS -->
-<div class="sw" id="projects">
-  <p class="s-eye">projects</p>
-  <h2 class="s-h">What I've <span>Built</span></h2>
-
-  <p class="proj-group-label">Full Stack</p>
-  <div class="proj-grid">
-    <div class="proj-card">
-      <p class="proj-name">SmaWash — Mobile Car Wash</p>
-      <p class="proj-desc">A full-stack web application for on-demand mobile car wash bookings — service selection, scheduling, and customer management. Built with Laravel and React. Live in production.</p>
-      <div class="proj-foot">
-        <span class="proj-lang"><span class="l-dot"></span> Laravel · React</span>
-        <a href="https://smawash.com/" target="_blank" rel="noopener" class="proj-lk">live ↗</a>
-      </div>
-    </div>
-    <div class="proj-card">
-      <p class="proj-name">customer-management-system</p>
-      <p class="proj-desc">A full-stack system for managing customer records, interactions, and data. Built with a clean API layer and an intuitive frontend interface for tracking customer lifecycle.</p>
-      <div class="proj-foot">
-        <span class="proj-lang"><span class="l-dot"></span> Python</span>
-        <a href="https://github.com/spiderc0des/customer-management-system" target="_blank" rel="noopener" class="proj-lk">github ↗</a>
-      </div>
-    </div>
-    <div class="proj-card">
-      <p class="proj-name">blog_api</p>
-      <p class="proj-desc">A RESTful API backend for a blogging platform — handles posts, authors, tags, and authentication. Designed with clean resource modelling and secure endpoints.</p>
-      <div class="proj-foot">
-        <span class="proj-lang"><span class="l-dot"></span> Python</span>
-        <a href="https://github.com/spiderc0des/blog_api" target="_blank" rel="noopener" class="proj-lk">github ↗</a>
-      </div>
-    </div>
-  </div>
-
-  <p class="proj-group-label">Security &amp; Tools</p>
-  <div class="proj-grid">
-    <div class="proj-card">
-      <p class="proj-name">port-scanner</p>
-      <p class="proj-desc">A host reconnaissance tool for discovering open ports across a target network. Useful for mapping attack surfaces and understanding network exposure before an engagement.</p>
-      <div class="proj-foot">
-        <span class="proj-lang"><span class="l-dot"></span> Python</span>
-        <a href="https://github.com/spiderc0des/port-scanner" target="_blank" rel="noopener" class="proj-lk">github ↗</a>
-      </div>
-    </div>
-    <div class="proj-card">
-      <p class="proj-name">5P1D3R-GDORKER</p>
-      <p class="proj-desc">A Google Dorking automation tool for OSINT reconnaissance. Identifies exposed data and vulnerable systems through advanced search query automation.</p>
-      <div class="proj-foot">
-        <span class="proj-lang"><span class="l-dot"></span> Python</span>
-        <a href="https://github.com/spiderc0des/5P1D3R-GDORKER" target="_blank" rel="noopener" class="proj-lk">github ↗</a>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- CONTACT -->
 <div class="sw" id="contact">
   <p class="s-eye">contact</p>
   <h2 class="s-h">Let's <span>Talk</span></h2>
   <div class="contact-inner">
-    <p>Open to full-time roles, freelance projects, and interesting collaborations — especially anything at the intersection of security, AI, and engineering. Reach out and let's build something worth breaking.</p>
+    <p>Open to AI engineering roles, agent and automation projects, and interesting collaborations — especially anything at the intersection of AI, security, and engineering. Reach out at <strong style="color:var(--text)">abdul.spidercodes@gmail.com</strong> and let's build something worth breaking.</p>
     <div class="contact-row">
       <a href="mailto:abdul.spidercodes@gmail.com" class="btn btn-primary">Send Email</a>
       <a href="https://linkedin.com/in/spidercodes" target="_blank" rel="noopener" class="btn btn-ghost">LinkedIn</a>
@@ -950,7 +1141,7 @@
 </div>
 
 <footer>
-  <p>Designed &amp; built by <a href="https://github.com/spiderc0des">Abdulrahman Yusuf</a> &nbsp;·&nbsp; 2025</p>
+  <p>Designed &amp; built by <a href="https://github.com/spiderc0des">Abdulrahman Yusuf</a> &nbsp;·&nbsp; 2026</p>
 </footer>
 
 <script>
@@ -1011,14 +1202,14 @@ const tlines = [
   { t:'blank' },
   { t:'cmd', v:'cat profile.json' },
   { t:'raw', v:'{' },
-  { t:'kv',  k:'  "role"',     v:'"Software Engineer"' },
+  { t:'kv',  k:'  "role"',     v:'"AI Engineer"' },
   { t:'kv',  k:'  "location"', v:'"Abuja, Nigeria"' },
-  { t:'kv',  k:'  "focus"',    v:'"Full-Stack + AI + Security"' },
-  { t:'kv',  k:'  "stack"',    v:'["Django","Laravel","React","K8s"]' },
+  { t:'kv',  k:'  "focus"',    v:'"AI Agents + Full-Stack + Security"' },
+  { t:'kv',  k:'  "stack"',    v:'["Agent SDK","Claude API","Next.js","n8n"]' },
   { t:'raw', v:'}' },
   { t:'blank' },
-  { t:'cmd', v:'ls skills/' },
-  { t:'out', v:'backend/   ai/   devops/   security/' },
+  { t:'cmd', v:'ls agents/' },
+  { t:'out', v:'lead-agent/   content-agent/   proposal-engine/' },
   { t:'blank' },
   { t:'end' },
 ];
@@ -1048,7 +1239,7 @@ function nextLine() {
 setTimeout(nextLine, 1800);
 
 // ── Hero typing animation ───────────────────────────────
-const roles = ['Full-Stack Engineer', 'AI Builder', 'Cybersecurity Researcher', 'Backend Architect'];
+const roles = ['AI Engineer', 'Automation Engineer', 'Full-Stack Engineer', 'Security Researcher'];
 let ri = 0, ci = 0, del = false;
 const typedEl = document.getElementById('typed-text');
 
@@ -1075,5 +1266,6 @@ document.querySelectorAll('.tl-item, .skill-cat, .proj-card, .cert-card').forEac
   obs.observe(el);
 });
 </script>
+
 </body>
 </html>
