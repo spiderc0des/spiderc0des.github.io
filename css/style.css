@@ -944,7 +944,7 @@ footer a:hover { text-decoration: underline; }
 /* ── CLICKABLE PROJECT CARDS ─────── */
 /* The title link stretches over the whole card; the live/github links sit above it. */
 .proj-card.linked { position: relative; cursor: pointer; }
-.card-link { color: inherit; text-decoration: none; transition: color 0.2s; }
+.card-link { text-decoration: none; }
 .card-link::after { content: ''; position: absolute; inset: 0; z-index: 1; border-radius: inherit; }
 .proj-card.linked .proj-links a { position: relative; z-index: 2; }
 
@@ -960,7 +960,6 @@ footer a:hover { text-decoration: underline; }
 .go-arrow { display: inline-block; transition: transform 0.2s; }
 
 .proj-card.linked:hover { border-color: var(--sky); }
-.proj-card.linked:hover .card-link { color: var(--sky); }
 .proj-card.linked:hover .proj-go { color: var(--sky); }
 .proj-card.linked:hover .go-arrow { transform: translateX(4px); }
 
