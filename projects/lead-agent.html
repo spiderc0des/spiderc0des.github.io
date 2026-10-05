@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lead Research Agent — Abdulrahman Yusuf</title>
+  <meta name="description" content="An AI lead research and outreach agent built on the Claude Agent SDK. It refines a target profile, finds and reads company websites, qualifies each lead with cited evidence, and drafts outreach for human review.">
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="../js/theme.js"></script>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="../index.html" class="nav-logo">spiderc0des</a>
+  <div class="nav-right">
+  <ul class="nav-links">
+    <li><a href="#overview">overview</a></li>
+    <li><a href="#how-it-works">how it works</a></li>
+    <li><a href="#system-flow">system flow</a></li>
+    <li><a href="#screens">screens</a></li>
+    <li><a href="#using-it">using it</a></li>
+  </ul>
+  <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to light mode"><span class="tt-ico"></span><span class="tt-label">light</span></button>
+  </div>
+</nav>
+
+<canvas id="bg-canvas"></canvas>
+
+<!-- HERO -->
+<section class="cs-hero">
+  <div>
+    <a href="../index.html#projects" class="crumb">← all projects</a>
+    <p class="hero-eyebrow">// project · ai lead research &amp; outreach</p>
+    <h1 class="hero-name">Lead Research<br><em>Agent</em></h1>
+    <div class="cs-meta">
+      <span class="badge-live">Live</span>
+      <span class="badge-prog">Claude Agent SDK</span>
+      <span class="badge-prog">Apify</span>
+      <span class="badge-prog">Firecrawl</span>
+    </div>
+    <p class="hero-desc">Give it a plain-English objective. The agent refines it into a target profile, finds companies through web search, reads their websites, and qualifies each one with cited evidence. For every qualified lead it drafts a 3-step cold email sequence and a LinkedIn message. It stops at the draft: it never finds personal emails, never checks deliverability, and has no way to send anything.</p>
+    <div class="hero-actions">
+      <a href="https://koya-lead-agent.up.railway.app" target="_blank" rel="noopener" class="btn btn-primary">Open the app ↗</a>
+      <a href="https://github.com/spiderc0des/ai-lead-agent" target="_blank" rel="noopener" class="btn btn-ghost">GitHub</a>
+    </div>
+  </div>
+  <div class="stat-stack">
+    <div class="stat-item">
+      <span class="stat-n">~10 min</span>
+      <span class="stat-l">of machine time for an evidenced lead list</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-n">$1–3</span>
+      <span class="stat-l">model spend per run</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-n">5</span>
+      <span class="stat-l">agent skills built from guidance docs</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-n">0</span>
+      <span class="stat-l">tools that can send, find emails, or run shell commands</span>
+    </div>
+  </div>
+</section>
+
+<!-- OVERVIEW -->
+<div class="sw" id="overview">
+  <p class="s-eye">overview</p>
+  <h2 class="s-h">Purpose &amp; <span>Success</span></h2>
+  <div class="about-grid">
+    <div class="cs-block">
+      <div>
+        <h3>Who it's for</h3>
+        <p class="cs-lead">A growth team that places trained AI automation assistants with founders, operators and agency owners. It serves two people on that team: the one who decides who to target, and the reviewer who approves outreach before anything is sent.</p>
+      </div>
+      <div>
+        <h3>The problem</h3>
+        <p class="cs-lead">Finding leads is manual: write a persona, search, open each website, judge fit, then write cold email from scratch. It's slow, and the reasoning behind each lead is lost, so nobody can check why a company was chosen or where a claim in an email came from.</p>
+      </div>
+      <div>
+        <h3>What changes</h3>
+        <p class="cs-lead">A reviewer gets an <strong>evidenced lead list</strong> and <strong>ready-to-edit drafts</strong> in about 10 minutes of machine time. Every decision traces back to a page the agent actually read.</p>
+      </div>
+    </div>
+    <div>
+      <h3 class="sk-name">Success means</h3>
+      <ul class="check-list">
+        <li>More <strong>qualified leads</strong> per run</li>
+        <li><strong>Every email cites</strong> one of the lead's sources</li>
+        <li><strong>Zero personal data</strong> collected</li>
+        <li>The <strong>budget is never exceeded</strong></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="sw" id="how-it-works">
+  <p class="s-eye">how it works</p>
+  <h2 class="s-h">From an Objective to a Reviewed <span>Lead List</span></h2>
+  <div class="timeline">
+    <div class="tl-item">
+      <p class="tl-step">step 1</p>
+      <p class="tl-role">Refine</p>
+      <p class="tl-co">icp-refinement skill · Claude Sonnet 5</p>
+      <p class="tl-desc">The objective becomes hard filters, soft preferences and disqualifiers, each marked by whether the user said it or the agent assumed it. If the objective gives nothing to search on, the run stops and asks instead of guessing.</p>
+    </div>
+    <div class="tl-item">
+      <p class="tl-step">step 2</p>
+      <p class="tl-role">Approve</p>
+      <p class="tl-co">Human gate · on by default</p>
+      <p class="tl-desc">The run pauses so a person can check the criteria (about $0.05 spent so far) before any money goes on search. They approve it, or give a corrected objective and the same run continues.</p>
+    </div>
+    <div class="tl-item">
+      <p class="tl-step">step 3</p>
+      <p class="tl-role">Discover and read</p>
+      <p class="tl-co">Apify Google search · Firecrawl</p>
+      <p class="tl-desc">Apify searches Google, and directories, listicles and big platforms are filtered out. Firecrawl reads each company's site while the search is still running. Web text is treated as data, never as instructions, and injection attempts are flagged.</p>
+    </div>
+    <div class="tl-item">
+      <p class="tl-step">step 4</p>
+      <p class="tl-role">Qualify</p>
+      <p class="tl-co">lead-qualification skill</p>
+      <p class="tl-desc">Each company is marked qualified, needs review or not qualified, with a confidence score, reasons, concerns and sources. When a criterion like headcount can't be verified, the lead goes to needs review rather than being guessed.</p>
+    </div>
+    <div class="tl-item">
+      <p class="tl-step">step 5</p>
+      <p class="tl-role">Draft and check</p>
+      <p class="tl-co">outbound-copywriting · lead-list-quality skills</p>
+      <p class="tl-desc">Outreach is written only for qualified leads, and every email must cite one of that lead's sources. The server then re-checks the whole list itself, counting qualified leads, duplicates and drafts, before it marks the run complete.</p>
+    </div>
+  </div>
+
+  <div class="skills-grid" style="margin-top:1rem">
+    <div class="skill-cat">
+      <p class="sk-name">Enforced, not requested</p>
+      <p class="card-body">Candidate, scrape, lead and budget caps are stored on the run and checked inside each tool, so no prompt and no web page can raise them. All users share one budget pool, and each paid call reserves its cost before it runs.</p>
+    </div>
+    <div class="skill-cat">
+      <p class="sk-name">Nothing fails silently</p>
+      <p class="card-body">Every tool call, refusal and error is logged in Supabase with its reason. The run history records who started, approved, answered, resumed or cancelled each run.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SYSTEM FLOW -->
+<div class="sw" id="system-flow">
+  <p class="s-eye">system flow</p>
+  <h2 class="s-h">How an Objective Becomes a Reviewed <span>Lead List</span></h2>
+  <a href="img/lead-agent/system-flow.png" class="shot vis" data-zoom="System flow: objective → refine ICP → approve → discover → read → qualify → draft → check → human review">
+    <div class="frame">
+      <div class="t-bar">
+        <div class="t-dot r"></div>
+        <div class="t-dot y"></div>
+        <div class="t-dot g"></div>
+        <span class="t-bar-label">system-flow.png</span>
+      </div>
+      <div class="frame-scroll">
+        <img src="img/lead-agent/system-flow.png" alt="System flow diagram in nine steps: an objective comes in, the ICP is refined, a person approves the criteria, Apify discovers companies, Firecrawl reads their websites, each company is qualified, outreach is drafted, the list is checked and finished, and a human reviews it. Side panels show the run stopping to ask when nothing is searchable, winding down when the budget runs low, and Supabase recording every step." width="3080" height="1952" loading="lazy">
+      </div>
+    </div>
+  </a>
+  <p class="frame-note">Click the diagram to enlarge it.</p>
+</div>
+
+<!-- SCREENS -->
+<div class="sw" id="screens">
+  <p class="s-eye">screens</p>
+  <h2 class="s-h">What It Looks <span>Like</span></h2>
+  <div class="shots">
+    <a href="img/lead-agent/new-run.png" class="shot wide" data-zoom="1 · Starting a new run from a plain-English objective">
+      <div class="frame">
+        <div class="t-bar"><div class="t-dot r"></div><div class="t-dot y"></div><div class="t-dot g"></div><span class="t-bar-label">lead-agent/new</span></div>
+        <img src="img/lead-agent/new-run.png" alt="New run form with an objective box reading 'Find 10 US B2B SaaS companies with 10 to 100 employees that may need AI automation support', an adjust limits button, the shared budget left for discovery and model spend, and a Start run button." width="1916" height="654" loading="lazy">
+      </div>
+      <div class="shot-cap">
+        <span class="shot-n">1 · new run</span>
+        <span class="shot-t">Describe who you want to reach</span>
+        <span class="shot-d">The objective is written in plain English, and the number of leads is read from it. The form shows how much of the shared discovery and model budget is left before you start.</span>
+      </div>
+    </a>
+    <a href="img/lead-agent/run-results.png" class="shot wide" data-zoom="2 · A completed run: refined criteria, limits used and qualified leads">
+      <div class="frame">
+        <div class="t-bar"><div class="t-dot r"></div><div class="t-dot y"></div><div class="t-dot g"></div><span class="t-bar-label">lead-agent/runs</span></div>
+        <img src="img/lead-agent/run-results.png" alt="A completed run for UK accounting firms with 5 to 30 staff. It shows the refined ICP criteria, counters for candidates 40 of 60, scrapes 59 of 100, qualified 5 of 5, turns 44 of 195, model spend $0.96 of $3.00 and zero injection attempts, then the qualification results with qualified leads and their confidence scores." width="1910" height="1087" loading="lazy">
+      </div>
+      <div class="shot-cap">
+        <span class="shot-n">2 · results</span>
+        <span class="shot-t">A completed run</span>
+        <span class="shot-d">The refined criteria sit beside the original objective. Counters show each cap against what was used, including injection attempts seen. Leads can be filtered by qualified, needs review or not qualified, and exported as a Markdown sample pack or an .xlsx lead list.</span>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- USING IT -->
+<div class="sw" id="using-it">
+  <p class="s-eye">using it</p>
+  <h2 class="s-h">How to <span>Use It</span></h2>
+  <div class="skills-grid">
+    <div class="skill-cat">
+      <p class="sk-name">1 · Sign in</p>
+      <p class="card-body">Enter your email and click the magic link. Access is invite-only, and an admin adds you from the admin page.</p>
+    </div>
+    <div class="skill-cat">
+      <p class="sk-name">2 · New run</p>
+      <p class="card-body">Describe who you want to reach. The number of leads is filled in from your text. Open <strong>adjust limits</strong> to change candidates or budget.</p>
+    </div>
+    <div class="skill-cat">
+      <p class="sk-name">3 · Approve the criteria</p>
+      <p class="card-body">The run pauses with the refined profile. Approve it, or type a corrected objective and continue the same run.</p>
+    </div>
+    <div class="skill-cat">
+      <p class="sk-name">4 · Watch, or close the tab</p>
+      <p class="card-body">The run happens on the server. The page updates live with candidates, pages read, decisions and cost, and you get an email when it finishes or needs you.</p>
+    </div>
+    <div class="skill-cat">
+      <p class="sk-name">5 · Answer if asked</p>
+      <p class="card-body">If the objective was too vague, the run shows its questions. Your answers become the objective and the run carries on.</p>
+    </div>
+    <div class="skill-cat">
+      <p class="sk-name">6 · Review</p>
+      <p class="card-body">Filter leads by status. Each one shows its reasons, concerns and sources. Copy drafts with one click and fill in the <code>[Name]</code> and <code>[Your name]</code> placeholders.</p>
+    </div>
+    <div class="skill-cat">
+      <p class="sk-name">7 · Export</p>
+      <p class="card-body">Download the outreach sample pack (Markdown) or the lead list (.xlsx, with Qualified and Needs review sheets).</p>
+    </div>
+    <div class="skill-cat">
+      <p class="sk-name">8 · Resume or cancel</p>
+      <p class="card-body">A failed or cancelled run resumes where it stopped. Admins set the shared budget, worker count and runs per person, and can pause all runs.</p>
+    </div>
+  </div>
+</div>
+
+<!-- STACK -->
+<div class="sw" id="stack">
+  <p class="s-eye">stack</p>
+  <h2 class="s-h">Built <span>With</span></h2>
+  <div class="pills">
+    <span class="pill">Claude Agent SDK</span>
+    <span class="pill">Claude Sonnet 5</span>
+    <span class="pill">Agent Skills</span>
+    <span class="pill">Apify (Google SERP)</span>
+    <span class="pill">Firecrawl</span>
+    <span class="pill">Next.js</span>
+    <span class="pill">TypeScript</span>
+    <span class="pill">Supabase</span>
+    <span class="pill">ExcelJS</span>
+    <span class="pill">Brevo</span>
+    <span class="pill">Docker</span>
+    <span class="pill">Railway</span>
+  </div>
+  <div class="cs-next" style="margin-top:4rem">
+    <a href="../index.html#projects" class="btn btn-ghost">← All projects</a>
+    <a href="https://github.com/spiderc0des/ai-lead-agent" target="_blank" rel="noopener" class="btn btn-primary">View the code ↗</a>
+  </div>
+</div>
+
+<footer>
+  <p>Designed &amp; built by <a href="https://github.com/spiderc0des">Abdulrahman Yusuf</a> &nbsp;·&nbsp; 2026</p>
+</footer>
+
+<dialog id="lightbox" aria-label="Enlarged image">
+  <img src="" alt="">
+  <p class="lb-cap"></p>
+</dialog>
+
+<script src="../js/site.js"></script>
+</body>
+</html>

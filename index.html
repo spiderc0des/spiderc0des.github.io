@@ -5,725 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Abdulrahman Yusuf — spiderc0des</title>
   <meta name="description" content="AI engineer based in Abuja, Nigeria, building agents and automation with a full-stack foundation and a cybersecurity edge.">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg:      #060a10;
-      --bg-2:    #0c1220;
-      --bg-3:    #0f1827;
-      --border:  rgba(56,189,248,0.12);
-      --bh:      rgba(56,189,248,0.32);
-      --sky:     #38bdf8;
-      --sky-dim: rgba(56,189,248,0.08);
-      --sky-gl:  rgba(56,189,248,0.18);
-      --text:    #ddeaf7;
-      --mid:     #6a90b0;
-      --muted:   #2e4a64;
-      --mono:    'SF Mono','Fira Code','Cascadia Code','Consolas',monospace;
-      --sans:    system-ui,-apple-system,'Segoe UI',sans-serif;
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--sans);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    ::selection { background: var(--sky-gl); color: var(--text); }
-
-    ::-webkit-scrollbar { width: 4px; }
-    ::-webkit-scrollbar-track { background: var(--bg); }
-    ::-webkit-scrollbar-thumb { background: var(--bh); border-radius: 2px; }
-
-    /* ── NAV ─────────────────────────── */
-    nav {
-      position: fixed;
-      inset: 0 0 auto;
-      z-index: 200;
-      height: 58px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 3rem;
-      background: rgba(6,10,16,0.88);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .nav-logo {
-      font-family: var(--mono);
-      font-size: 0.95rem;
-      color: var(--sky);
-      text-decoration: none;
-      letter-spacing: -0.5px;
-    }
-    .nav-logo::before { content: '> '; color: var(--muted); }
-
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
-
-    .nav-links a {
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      color: var(--mid);
-      text-decoration: none;
-      letter-spacing: 0.5px;
-      transition: color 0.2s;
-      position: relative;
-    }
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: -3px; left: 0; right: 0;
-      height: 1px;
-      background: var(--sky);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.2s;
-    }
-    .nav-links a:hover { color: var(--sky); }
-    .nav-links a:hover::after { transform: scaleX(1); }
-
-    /* ── CANVAS ──────────────────────── */
-    #bg-canvas {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    /* ── HERO ────────────────────────── */
-    #hero {
-      position: relative;
-      z-index: 1;
-      min-height: 100vh;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      align-items: center;
-      gap: 4rem;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 100px 3rem 4rem;
-    }
-
-    .hero-eyebrow {
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      color: var(--sky);
-      letter-spacing: 1.5px;
-      margin-bottom: 1.25rem;
-      opacity: 0;
-      animation: fadeUp 0.5s ease forwards 0.1s;
-    }
-
-    .hero-name {
-      font-family: var(--mono);
-      font-size: clamp(2rem,4.5vw,3.6rem);
-      font-weight: 700;
-      line-height: 1.08;
-      letter-spacing: -2px;
-      margin-bottom: 0.8rem;
-      color: var(--text);
-      text-wrap: balance;
-      opacity: 0;
-      animation: fadeUp 0.5s ease forwards 0.3s;
-    }
-    .hero-name em { font-style: normal; color: var(--sky); }
-
-    .hero-role {
-      font-family: var(--mono);
-      font-size: 0.95rem;
-      color: var(--mid);
-      margin-bottom: 2rem;
-      min-height: 1.4rem;
-      opacity: 0;
-      animation: fadeUp 0.5s ease forwards 0.5s;
-    }
-    .hero-role .cur {
-      display: inline-block;
-      width: 2px; height: 0.85em;
-      background: var(--sky);
-      animation: blink 1s infinite;
-      vertical-align: middle;
-      margin-left: 2px;
-    }
-
-    .hero-desc {
-      font-size: 1rem;
-      color: var(--mid);
-      line-height: 1.85;
-      max-width: 440px;
-      margin-bottom: 2.5rem;
-      opacity: 0;
-      animation: fadeUp 0.5s ease forwards 0.7s;
-    }
-
-    .hero-actions {
-      display: flex;
-      gap: 0.75rem;
-      flex-wrap: wrap;
-      opacity: 0;
-      animation: fadeUp 0.5s ease forwards 0.9s;
-    }
-
-    /* Terminal */
-    .hero-terminal {
-      background: var(--bg-2);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 0 80px rgba(56,189,248,0.06), 0 24px 64px rgba(0,0,0,0.6);
-      opacity: 0;
-      animation: fadeIn 0.7s ease forwards 1.2s;
-    }
-
-    .t-bar {
-      background: var(--bg-3);
-      padding: 0.65rem 1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.45rem;
-      border-bottom: 1px solid var(--border);
-    }
-    .t-dot { width: 10px; height: 10px; border-radius: 50%; }
-    .t-dot.r { background: #ff5f57; }
-    .t-dot.y { background: #febc2e; }
-    .t-dot.g { background: #28c840; }
-    .t-bar-label {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      color: var(--muted);
-      margin: 0 auto;
-      transform: translateX(-1.5rem);
-    }
-
-    .t-body {
-      padding: 1.4rem 1.6rem;
-      font-family: var(--mono);
-      font-size: 0.8rem;
-      line-height: 2.1;
-      min-height: 300px;
-    }
-
-    .t-ln { display: block; }
-    .t-p  { color: var(--sky); }
-    .t-c  { color: var(--text); }
-    .t-o  { color: var(--muted); padding-left: 1rem; }
-    .t-k  { color: var(--sky); }
-    .t-s  { color: #86efac; }
-    .t-cur { display: inline-block; width: 7px; height: 1em; background: var(--sky); animation: blink 1s infinite; vertical-align: middle; }
-
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-
-    /* ── BUTTONS ─────────────────────── */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      padding: 0.62rem 1.35rem;
-      border-radius: 6px;
-      font-family: var(--mono);
-      font-size: 0.8rem;
-      font-weight: 600;
-      letter-spacing: 0.3px;
-      text-decoration: none;
-      transition: all 0.2s;
-      border: none;
-      cursor: pointer;
-    }
-
-    .btn-primary { background: var(--sky); color: #060a10; }
-    .btn-primary:hover {
-      background: #7dd3fc;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 24px var(--sky-gl);
-    }
-
-    .btn-ghost {
-      background: transparent;
-      color: var(--sky);
-      border: 1px solid var(--bh);
-    }
-    .btn-ghost:hover {
-      background: var(--sky-dim);
-      transform: translateY(-2px);
-      border-color: var(--sky);
-    }
-
-    /* ── SECTION SHELL ───────────────── */
-    .sw {
-      position: relative;
-      z-index: 1;
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 5rem 3rem;
-    }
-
-    .s-eye {
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      color: var(--sky);
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      margin-bottom: 0.5rem;
-    }
-
-    .s-h {
-      font-family: var(--mono);
-      font-size: clamp(1.5rem,2.8vw,2.2rem);
-      font-weight: 700;
-      letter-spacing: -1px;
-      margin-bottom: 3rem;
-      color: var(--text);
-      text-wrap: balance;
-    }
-    .s-h span { color: var(--sky); }
-
-    /* ── ABOUT ───────────────────────── */
-    .about-grid {
-      display: grid;
-      grid-template-columns: 3fr 2fr;
-      gap: 5rem;
-      align-items: start;
-    }
-
-    .about-body p {
-      color: var(--mid);
-      line-height: 1.9;
-      font-size: 1rem;
-      margin-bottom: 1.2rem;
-    }
-    .about-body strong { color: var(--text); font-weight: 600; }
-
-    .stat-stack { display: flex; flex-direction: column; gap: 0.85rem; }
-
-    .stat-item {
-      padding: 1.1rem 1.4rem;
-      background: var(--bg-2);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      display: flex;
-      align-items: baseline;
-      gap: 1rem;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-    .stat-item:hover {
-      border-color: var(--bh);
-      box-shadow: 0 4px 20px var(--sky-dim);
-    }
-    .stat-n {
-      font-family: var(--mono);
-      font-size: 1.7rem;
-      font-weight: 700;
-      color: var(--sky);
-      line-height: 1;
-      font-variant-numeric: tabular-nums;
-      white-space: nowrap;
-    }
-    .stat-l { font-size: 0.82rem; color: var(--muted); }
-
-    /* ── EXPERIENCE ──────────────────── */
-    .timeline {
-      border-left: 1px solid var(--border);
-      padding-left: 2rem;
-    }
-
-    .tl-item {
-      padding-bottom: 2.5rem;
-      position: relative;
-      opacity: 0;
-      transform: translateY(14px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
-    }
-    .tl-item.vis { opacity: 1; transform: translateY(0); }
-
-    .tl-item::before {
-      content: '';
-      position: absolute;
-      left: -2rem;
-      top: 0.4rem;
-      width: 9px; height: 9px;
-      border-radius: 50%;
-      background: var(--sky);
-      box-shadow: 0 0 8px var(--sky);
-      transform: translateX(-4px);
-    }
-
-    .tl-date {
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      color: var(--muted);
-      letter-spacing: 0.5px;
-      margin-bottom: 0.4rem;
-    }
-
-    .tl-role-line {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      flex-wrap: wrap;
-      margin-bottom: 0.15rem;
-    }
-
-    .tl-role {
-      font-family: var(--mono);
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--text);
-    }
-
-    .badge-contract {
-      font-family: var(--mono);
-      font-size: 0.62rem;
-      font-weight: 600;
-      letter-spacing: 0.8px;
-      padding: 0.15rem 0.5rem;
-      border: 1px solid rgba(251,191,36,0.4);
-      color: #fbbf24;
-      border-radius: 3px;
-      text-transform: uppercase;
-    }
-
-    .tl-co {
-      font-size: 0.88rem;
-      color: var(--sky);
-      font-weight: 600;
-      margin-bottom: 0.7rem;
-    }
-    .tl-desc {
-      font-size: 0.9rem;
-      color: var(--mid);
-      line-height: 1.8;
-      max-width: 580px;
-    }
-
-    /* ── SKILLS ──────────────────────── */
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(255px,1fr));
-      gap: 1rem;
-    }
-
-    .skill-cat {
-      background: var(--bg-2);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1.4rem;
-      opacity: 0;
-      transform: translateY(14px);
-      transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.2s, box-shadow 0.2s;
-    }
-    .skill-cat.vis { opacity: 1; transform: translateY(0); }
-    .skill-cat:hover { border-color: var(--bh); box-shadow: 0 4px 20px var(--sky-dim); }
-
-    .sk-name {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: var(--sky);
-      margin-bottom: 0.9rem;
-    }
-
-    .pills { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-
-    .pill {
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      color: var(--mid);
-      background: var(--sky-dim);
-      border: 1px solid var(--border);
-      padding: 0.22rem 0.6rem;
-      border-radius: 4px;
-      transition: all 0.15s;
-    }
-    .pill:hover { color: var(--sky); border-color: var(--bh); background: rgba(56,189,248,0.13); }
-
-    /* ── CERTIFICATIONS ──────────────── */
-    .certs-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
-      gap: 1rem;
-    }
-
-    .cert-card {
-      display: flex;
-      align-items: flex-start;
-      gap: 1rem;
-      background: var(--bg-2);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1.35rem 1.5rem;
-      text-decoration: none;
-      opacity: 0;
-      transform: translateY(14px);
-      transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.2s, box-shadow 0.2s;
-    }
-    .cert-card.vis { opacity: 1; transform: translateY(0); }
-    .cert-card:hover {
-      border-color: var(--bh);
-      box-shadow: 0 4px 24px var(--sky-dim);
-    }
-
-    .cert-icon {
-      font-family: var(--mono);
-      font-size: 1.2rem;
-      line-height: 1;
-      color: var(--sky);
-      flex-shrink: 0;
-      margin-top: 0.1rem;
-    }
-
-    .cert-info { flex: 1; }
-
-    .cert-name {
-      font-family: var(--mono);
-      font-size: 0.88rem;
-      font-weight: 700;
-      color: var(--text);
-      line-height: 1.35;
-      margin-bottom: 0.3rem;
-    }
-
-    .cert-issuer {
-      font-size: 0.78rem;
-      color: var(--muted);
-    }
-
-    .cert-verify {
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      color: var(--mid);
-      white-space: nowrap;
-      flex-shrink: 0;
-      transition: color 0.2s;
-      margin-top: 0.15rem;
-    }
-    .cert-card:hover .cert-verify { color: var(--sky); }
-
-    /* ── PROJECTS ────────────────────── */
-    .proj-group-label {
-      font-family: var(--mono);
-      font-size: 0.68rem;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      color: var(--muted);
-      margin-bottom: 1rem;
-    }
-
-    .proj-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(290px,1fr));
-      gap: 1.2rem;
-      margin-bottom: 3rem;
-    }
-    .proj-grid:last-child { margin-bottom: 0; }
-
-    .proj-card {
-      background: var(--bg-2);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1.7rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.65rem;
-      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
-      opacity: 0;
-      transform: translateY(14px);
-    }
-    .proj-card.vis { opacity: 1; transform: translateY(0); }
-    .proj-card:hover {
-      border-color: var(--bh);
-      transform: translateY(-4px);
-      box-shadow: 0 12px 40px rgba(56,189,248,0.1);
-    }
-
-    .proj-card.placeholder {
-      border-style: dashed;
-      border-color: var(--muted);
-    }
-    .proj-card.placeholder:hover {
-      border-color: var(--bh);
-    }
-
-    .proj-name {
-      font-family: var(--mono);
-      font-size: 0.98rem;
-      font-weight: 700;
-      color: var(--text);
-    }
-    .proj-desc {
-      font-size: 0.87rem;
-      color: var(--mid);
-      line-height: 1.78;
-      flex: 1;
-    }
-    .proj-foot {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 0.4rem;
-    }
-    .proj-lang {
-      font-family: var(--mono);
-      font-size: 0.73rem;
-      color: var(--muted);
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-    .l-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--sky); flex-shrink: 0; }
-    .l-dot.rust { background: #f97316; }
-    .proj-lk {
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      color: var(--muted);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    .proj-lk:hover { color: var(--sky); }
-
-    /* ── CONTACT ─────────────────────── */
-    .contact-inner { max-width: 520px; }
-    .contact-inner p {
-      color: var(--mid);
-      line-height: 1.85;
-      margin-bottom: 2rem;
-      font-size: 1rem;
-    }
-    .contact-row { display: flex; gap: 0.75rem; flex-wrap: wrap; }
-
-    /* ── FOOTER ──────────────────────── */
-    footer {
-      position: relative;
-      z-index: 1;
-      text-align: center;
-      padding: 2rem 3rem;
-      border-top: 1px solid var(--border);
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      color: var(--muted);
-    }
-    footer a { color: var(--sky); text-decoration: none; }
-    footer a:hover { text-decoration: underline; }
-
-    /* ── ANIMATIONS ──────────────────── */
-    @keyframes fadeUp {
-      from { opacity:0; transform:translateY(22px); }
-      to   { opacity:1; transform:translateY(0); }
-    }
-    @keyframes fadeIn {
-      from { opacity:0; }
-      to   { opacity:1; }
-    }
-
-    /* ── RESPONSIVE ──────────────────── */
-    @media (max-width:900px) {
-      #hero { grid-template-columns:1fr; padding:90px 2rem 3rem; gap:2.5rem; }
-      .about-grid { grid-template-columns:1fr; gap:2.5rem; }
-      nav { padding:0 1.5rem; }
-      .sw { padding:4rem 2rem; }
-    }
-    @media (max-width:620px) {
-      .nav-links { display:none; }
-      .hero-name { font-size:1.9rem; letter-spacing:-1px; }
-    }
-    @media (prefers-reduced-motion:reduce) {
-      *, *::before, *::after { animation-duration:0.01ms!important; transition-duration:0.01ms!important; }
-    }
-
-    /* ── ADDITIONS (AI projects) ─────── */
-    :root { color-scheme: dark; }
-
-    .proj-group-note {
-      font-size: 0.88rem;
-      color: var(--mid);
-      line-height: 1.8;
-      max-width: 640px;
-      margin: -0.4rem 0 1.4rem;
-    }
-
-    .proj-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.75rem;
-    }
-
-    .proj-week {
-      font-family: var(--mono);
-      font-size: 0.62rem;
-      font-weight: 600;
-      letter-spacing: 0.8px;
-      text-transform: uppercase;
-      color: var(--sky);
-      border: 1px solid var(--bh);
-      padding: 0.15rem 0.5rem;
-      border-radius: 3px;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-
-    .proj-card.feature { grid-column: 1 / -1; }
-    .proj-card.feature .proj-desc { max-width: 760px; }
-
-    .proj-points {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.35rem;
-      font-size: 0.84rem;
-      color: var(--mid);
-      line-height: 1.7;
-    }
-    .proj-points li { padding-left: 1.1rem; position: relative; }
-    .proj-points li::before {
-      content: '›';
-      position: absolute;
-      left: 0;
-      color: var(--sky);
-      font-family: var(--mono);
-    }
-
-    .proj-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
-    .proj-tags .pill { font-size: 0.68rem; padding: 0.15rem 0.5rem; }
-
-    .proj-links { display: flex; gap: 1rem; }
-
-    .l-dot.ts { background: #3178c6; }
-    .l-dot.n8n { background: #ea4b71; }
-    .l-dot.py { background: #fbbf24; }
-
-    .badge-prog {
-      font-family: var(--mono);
-      font-size: 0.62rem;
-      font-weight: 600;
-      letter-spacing: 0.8px;
-      padding: 0.15rem 0.5rem;
-      border: 1px solid var(--bh);
-      color: var(--sky);
-      border-radius: 3px;
-      text-transform: uppercase;
-    }
-
-    .skill-cat.ai { border-color: var(--bh); }
-
-    @media (max-width:620px) {
-      nav { padding: 0 1rem; }
-      #hero, .sw { padding-left: 1rem; padding-right: 1rem; }
-    }
-  </style>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/theme.js"></script>
 </head>
 <body>
 
 <!-- NAV -->
 <nav>
   <a href="#hero" class="nav-logo">spiderc0des</a>
+  <div class="nav-right">
   <ul class="nav-links">
     <li><a href="#about">about</a></li>
     <li><a href="#projects">projects</a></li>
@@ -732,6 +22,8 @@
     <li><a href="#certifications">certs</a></li>
     <li><a href="#contact">contact</a></li>
   </ul>
+  <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to light mode"><span class="tt-ico"></span><span class="tt-label">light</span></button>
+  </div>
 </nav>
 
 <canvas id="bg-canvas"></canvas>
@@ -773,12 +65,12 @@
   <div class="about-grid">
     <div class="about-body">
       <p>I'm a software engineer based in <strong>Abuja, Nigeria</strong>, focused on <strong>AI agents and LLM-powered automation</strong>. I hold a B.Sc. in Cybersecurity from the Air Force Institute of Technology, and I build AI systems that are secure by design, not as an afterthought.</p>
-      <p>I've shipped AI systems: an n8n invoice pipeline, an operations reporting system, a proposal engine, a content research and publishing agent, and a lead research agent built on the <strong>Claude Agent SDK</strong>. Each one has a human approval gate enforced in the database, spend limits that hold even if the model misbehaves, and Claude output checked against what the system actually calculated.</p>
+      <p>I've shipped AI systems: an n8n invoice pipeline, an operations reporting system, a proposal engine, a content research and publishing agent, a lead research agent built on the <strong>Claude Agent SDK</strong>, and a voice support agent that reaches its data through a custom <strong>MCP server</strong>. Each one has a human approval gate enforced in the database, spend limits that hold even if the model misbehaves, and Claude output checked against what the system actually calculated.</p>
       <p>I'm drawn to the intersection of engineering rigour and adversarial thinking. That shows up in my AI work too: prompt-injection guards, grounding checks, and agents that have no tool for the things they must never do.</p>
     </div>
     <div class="stat-stack">
       <div class="stat-item">
-        <span class="stat-n">5</span>
+        <span class="stat-n">6</span>
         <span class="stat-l">AI systems shipped</span>
       </div>
       <div class="stat-item">
@@ -807,15 +99,34 @@
 
     <div class="proj-card feature">
       <div class="proj-top">
-        <p class="proj-name">Lead Agent — AI Lead Research &amp; Outreach</p>
+        <p class="proj-name">RelayPay Support Agent — Voice AI Customer Support</p>
       </div>
-      <p class="proj-desc">An autonomous research agent built on the Claude Agent SDK. You give it a qualification objective; it refines that into ICP criteria, discovers companies through Apify, reads their websites with Firecrawl, qualifies each one from evidence, and drafts a 3-step cold email sequence plus a LinkedIn message per qualified lead. Everything lands in Supabase for human review. It never finds personal emails and never sends anything, because no tool in the session can.</p>
+      <p class="proj-desc">A voice support agent that customers can call from the browser or by phone. Vapi handles speech, and a Claude Agent SDK session runs the whole call. The agent answers from an approved knowledge base, looks up accounts, transactions and payouts, opens tickets, books callbacks on a support agent's Google Calendar, and hands anything that needs human judgement to a specialist. Its only way to reach data is a custom MCP server with eight tools, and every turn, tool call and decision is logged to Supabase for review in a role-based support console.</p>
+      <div class="proj-tags">
+        <span class="pill">Claude Agent SDK</span><span class="pill">MCP Server</span><span class="pill">Vapi Voice AI</span><span class="pill">Next.js</span><span class="pill">Supabase</span><span class="pill">Google Calendar API</span><span class="pill">Docker</span><span class="pill">Railway</span>
+      </div>
+      <div class="proj-foot">
+        <span class="proj-lang"><span class="l-dot ts"></span> TypeScript</span>
+        <span class="proj-links">
+          <a href="projects/relaypay-support.html" class="proj-lk">case study →</a>
+          <a href="https://relaypay-support.up.railway.app" target="_blank" rel="noopener" class="proj-lk">live ↗</a>
+          <a href="https://github.com/spiderc0des/support-agent" target="_blank" rel="noopener" class="proj-lk">github ↗</a>
+        </span>
+      </div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-top">
+        <p class="proj-name">Lead Agent</p>
+      </div>
+      <p class="proj-desc">An autonomous research agent built on the Claude Agent SDK. It turns a qualification objective into ICP criteria, finds companies through Apify, reads their websites with Firecrawl, and qualifies each one from evidence. For each qualified lead it drafts a 3-step cold email sequence and a LinkedIn message for human review. It never sends anything, because no tool in the session can.</p>
       <div class="proj-tags">
         <span class="pill">Claude Agent SDK</span><span class="pill">Agent Skills</span><span class="pill">Next.js</span><span class="pill">Supabase</span><span class="pill">Apify</span><span class="pill">Firecrawl</span><span class="pill">Docker</span><span class="pill">Railway</span>
       </div>
       <div class="proj-foot">
         <span class="proj-lang"><span class="l-dot ts"></span> TypeScript</span>
         <span class="proj-links">
+          <a href="projects/lead-agent.html" class="proj-lk">case study →</a>
           <a href="https://koya-lead-agent.up.railway.app" target="_blank" rel="noopener" class="proj-lk">live ↗</a>
           <a href="https://github.com/spiderc0des/ai-lead-agent" target="_blank" rel="noopener" class="proj-lk">github ↗</a>
         </span>
@@ -948,7 +259,8 @@
         <span class="pill">Claude Agent SDK</span>
         <span class="pill">Agent Skills</span>
         <span class="pill">Tool Use</span>
-        <span class="pill">MCP</span>
+        <span class="pill">MCP Servers</span>
+        <span class="pill">Voice Agents</span>
         <span class="pill">Prompt Design</span>
         <span class="pill">Multi-stage Pipelines</span>
         <span class="pill">Human-in-the-loop</span>
@@ -961,6 +273,7 @@
         <span class="pill">n8n</span>
         <span class="pill">Apify</span>
         <span class="pill">Firecrawl</span>
+        <span class="pill">Vapi</span>
         <span class="pill">Gmail &amp; Sheets APIs</span>
         <span class="pill">Airtable</span>
         <span class="pill">Streamlit</span>
@@ -1145,55 +458,6 @@
 </footer>
 
 <script>
-// ── Particle canvas ─────────────────────────────────────
-const canvas = document.getElementById('bg-canvas');
-const ctx = canvas.getContext('2d');
-let W, H, pts;
-
-function initCanvas() {
-  W = canvas.width = window.innerWidth;
-  H = canvas.height = window.innerHeight;
-  pts = Array.from({ length: 55 }, () => ({
-    x: Math.random() * W,
-    y: Math.random() * H,
-    vx: (Math.random() - 0.5) * 0.22,
-    vy: (Math.random() - 0.5) * 0.22,
-    r: Math.random() * 1.2 + 0.4,
-    a: Math.random() * 0.3 + 0.06
-  }));
-}
-initCanvas();
-window.addEventListener('resize', initCanvas);
-
-(function loop() {
-  ctx.clearRect(0, 0, W, H);
-  for (const p of pts) {
-    p.x += p.vx; p.y += p.vy;
-    if (p.x < 0 || p.x > W) p.vx *= -1;
-    if (p.y < 0 || p.y > H) p.vy *= -1;
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(56,189,248,${p.a})`;
-    ctx.fill();
-  }
-  for (let i = 0; i < pts.length; i++) {
-    for (let j = i + 1; j < pts.length; j++) {
-      const dx = pts[i].x - pts[j].x;
-      const dy = pts[i].y - pts[j].y;
-      const d = Math.hypot(dx, dy);
-      if (d < 125) {
-        ctx.beginPath();
-        ctx.moveTo(pts[i].x, pts[i].y);
-        ctx.lineTo(pts[j].x, pts[j].y);
-        ctx.strokeStyle = `rgba(56,189,248,${0.055*(1-d/125)})`;
-        ctx.lineWidth = 0.5;
-        ctx.stroke();
-      }
-    }
-  }
-  requestAnimationFrame(loop);
-})();
-
 // ── Terminal typewriter ─────────────────────────────────
 const tb = document.getElementById('t-body');
 const tlines = [
@@ -1209,7 +473,7 @@ const tlines = [
   { t:'raw', v:'}' },
   { t:'blank' },
   { t:'cmd', v:'ls agents/' },
-  { t:'out', v:'lead-agent/   content-agent/   proposal-engine/' },
+  { t:'out', v:'support-agent/   lead-agent/   content-agent/' },
   { t:'blank' },
   { t:'end' },
 ];
@@ -1256,16 +520,7 @@ function typeNext() {
 }
 setTimeout(typeNext, 1500);
 
-// ── Scroll reveal ───────────────────────────────────────
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
-}, { threshold: 0.1 });
-
-document.querySelectorAll('.tl-item, .skill-cat, .proj-card, .cert-card').forEach((el, i) => {
-  el.style.transitionDelay = `${(i % 4) * 0.07}s`;
-  obs.observe(el);
-});
 </script>
-
+<script src="js/site.js"></script>
 </body>
 </html>

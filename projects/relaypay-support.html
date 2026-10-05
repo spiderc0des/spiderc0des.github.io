@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RelayPay Support Agent — Abdulrahman Yusuf</title>
+  <meta name="description" content="A voice AI support agent built on the Claude Agent SDK, Vapi and a custom MCP server. It answers from approved knowledge, looks up accounts, opens tickets and books specialist callbacks.">
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="../js/theme.js"></script>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="../index.html" class="nav-logo">spiderc0des</a>
+  <div class="nav-right">
+  <ul class="nav-links">
+    <li><a href="#overview">overview</a></li>
+    <li><a href="#how-it-works">how it works</a></li>
+    <li><a href="#system-flow">system flow</a></li>
+    <li><a href="#screens">screens</a></li>
+    <li><a href="#using-it">using it</a></li>
+  </ul>
+  <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to light mode"><span class="tt-ico"></span><span class="tt-label">light</span></button>
+  </div>
+</nav>
+
+<canvas id="bg-canvas"></canvas>
+
+<!-- HERO -->
+<section class="cs-hero">
+  <div>
+    <a href="../index.html#projects" class="crumb">← all projects</a>
+    <p class="hero-eyebrow">// project · voice ai customer support</p>
+    <h1 class="hero-name">RelayPay<br><em>Support Agent</em></h1>
+    <div class="cs-meta">
+      <span class="badge-live">Live</span>
+      <span class="badge-prog">Claude Agent SDK</span>
+      <span class="badge-prog">MCP</span>
+      <span class="badge-prog">Vapi</span>
+    </div>
+    <p class="hero-desc">A caller signs in, then talks to an AI agent in the browser. It greets them by name, answers from RelayPay's approved knowledge, checks their account, transaction or payout, opens a ticket, or books a callback with a specialist on that person's Google Calendar. When approved knowledge doesn't cover a question, it declines instead of guessing. Every step is logged in Supabase.</p>
+    <div class="hero-actions">
+      <a href="https://relaypay-support.up.railway.app" target="_blank" rel="noopener" class="btn btn-primary">Try the voice page ↗</a>
+      <a href="https://relaypay-support.up.railway.app/review" target="_blank" rel="noopener" class="btn btn-ghost">Support console ↗</a>
+      <a href="https://github.com/spiderc0des/support-agent" target="_blank" rel="noopener" class="btn btn-ghost">GitHub</a>
+    </div>
+  </div>
+  <div class="stat-stack">
+    <div class="stat-item">
+      <span class="stat-n">1.1s</span>
+      <span class="stat-l">median time to first spoken word on real calls</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-n">$0.01–0.04</span>
+      <span class="stat-l">model spend per call</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-n">8</span>
+      <span class="stat-l">MCP tools, the agent's only reach into data</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-n">43</span>
+      <span class="stat-l">numbered rules across 6 agent skills</span>
+    </div>
+  </div>
+</section>
+
+<!-- OVERVIEW -->
+<div class="sw" id="overview">
+  <p class="s-eye">overview</p>
+  <h2 class="s-h">Purpose &amp; <span>Success</span></h2>
+  <div class="about-grid">
+    <div class="cs-block">
+      <div>
+        <h3>Who it's for</h3>
+        <p class="cs-lead">RelayPay customers (founders and finance teams at African startups and SMEs) who need support, and the RelayPay support team that picks up whatever the AI hands over.</p>
+      </div>
+      <div>
+        <h3>The problem</h3>
+        <p class="cs-lead">Support is flooded with repetitive questions about fees, payout timelines, invoicing and verification. These arrive mixed in with account-specific issues, compliance holds, disputes and frustrated customers who need a person. Answering the first kind by hand is slow, and mishandling the second kind is risky.</p>
+      </div>
+      <div>
+        <h3>What it does</h3>
+        <p class="cs-lead">Customers sign in with their account email and customer ID, and guests give a name, email and company. The agent then <strong>answers</strong> from approved knowledge, asks <strong>one clarifying question</strong> when a request is vague, checks records once the caller is verified, or <strong>hands the case to a specialist</strong> with a booked callback.</p>
+      </div>
+    </div>
+    <div>
+      <h3 class="sk-name">Success means</h3>
+      <ul class="check-list">
+        <li>A grounded spoken answer in <strong>about a second</strong></li>
+        <li>The <strong>right path</strong> on every test scenario</li>
+        <li><strong>No sensitive data</strong> spoken aloud</li>
+        <li>Every escalation lands in the team's queue, <strong>assigned to a person</strong>, with a callback booked when the caller wants one</li>
+        <li>About <strong>$0.01–0.04</strong> of model spend per call</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="sw" id="how-it-works">
+  <p class="s-eye">how it works</p>
+  <h2 class="s-h">From a Voice to an <span>Answer</span></h2>
+  <div class="timeline">
+    <div class="tl-item">
+      <p class="tl-step">step 1</p>
+      <p class="tl-role">Voice</p>
+      <p class="tl-co">Vapi</p>
+      <p class="tl-desc">Vapi turns speech into text and text into speech, and runs no model of its own. Each utterance goes to the backend as a Custom LLM request. The reply streams back a sentence at a time, so the caller hears "let me check that" while a lookup runs.</p>
+    </div>
+    <div class="tl-item">
+      <p class="tl-step">step 2</p>
+      <p class="tl-role">Decide</p>
+      <p class="tl-co">Claude Agent SDK · Claude Haiku 4.5</p>
+      <p class="tl-desc">Each call gets one Agent SDK session, which applies six skills with 43 numbered rules. <code>support-routing</code> sets precedence and <code>privacy-and-safety</code> overrides everything. Each reply ends with a hidden tag recording its path (answer, clarify, escalate or decline) and its confidence.</p>
+    </div>
+    <div class="tl-item">
+      <p class="tl-step">step 3</p>
+      <p class="tl-role">Act through MCP</p>
+      <p class="tl-co">Custom MCP server · 8 tools</p>
+      <p class="tl-desc">The eight tools are the agent's only reach. Lookups return a customer-safe summary and routing hints, never contact details, and each call is held to one account, verified or not. Tickets and escalations are deduplicated, and every escalation sits on a ticket. <code>book_callback</code> books the first support agent, in the admin's order, who is working and free on Google Calendar. The caller gets a calendar invite with a Meet link, and two callers can never get the same slot.</p>
+    </div>
+    <div class="tl-item">
+      <p class="tl-step">step 4</p>
+      <p class="tl-role">Record</p>
+      <p class="tl-co">Supabase</p>
+      <p class="tl-desc">Supabase stores the conversation, each turn (with its path, confidence, latency and cost), the knowledge used, every tool call (including failures and refusals), tickets, escalations, events and evaluation results.</p>
+    </div>
+    <div class="tl-item">
+      <p class="tl-step">step 5</p>
+      <p class="tl-role">Hand over</p>
+      <p class="tl-co">/review support console</p>
+      <p class="tl-desc">Support agents and admins are emailed when a case needs them. They work escalations and tickets in the console: take a case, see the booked callback, and close it with a resolution. Each change is confirmed first and audited. Admins set the callback order and update the knowledge base from the Admin page.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SYSTEM FLOW -->
+<div class="sw" id="system-flow">
+  <p class="s-eye">system flow</p>
+  <h2 class="s-h">How a Call Becomes an Answer, a Ticket or a <span>Specialist</span></h2>
+  <a href="img/relaypay-support/system-flow.png" class="shot vis" data-zoom="System flow: caller → Vapi → support agent → MCP server → Supabase">
+    <div class="frame">
+      <div class="t-bar">
+        <div class="t-dot r"></div>
+        <div class="t-dot y"></div>
+        <div class="t-dot g"></div>
+        <span class="t-bar-label">system-flow.png</span>
+      </div>
+      <div class="frame-scroll">
+        <img src="img/relaypay-support/system-flow.png" alt="System flow diagram. The caller signs in and speaks; Vapi turns speech to text and sends each utterance to the backend; one Claude Agent SDK session per call decides to answer, clarify, escalate or decline; the MCP server's eight tools search the knowledge base, look up records, create tickets and escalations, and book callbacks; Supabase stores everything. Below: rules enforced in code, the support team's review console, callbacks booked on Google Calendar, and admins updating the knowledge base." width="3200" height="1628" loading="lazy">
+      </div>
+    </div>
+  </a>
+  <p class="frame-note">Click the diagram to enlarge it.</p>
+</div>
+
+<!-- SCREENS -->
+<div class="sw" id="screens">
+  <p class="s-eye">screens</p>
+  <h2 class="s-h">What It Looks <span>Like</span></h2>
+  <div class="shots">
+    <a href="img/relaypay-support/sign-in.png" class="shot" data-zoom="1 · Before you call: customers sign in with their account email and customer ID">
+      <div class="frame">
+        <div class="t-bar"><div class="t-dot r"></div><div class="t-dot y"></div><div class="t-dot g"></div><span class="t-bar-label">relaypay-support</span></div>
+        <img src="img/relaypay-support/sign-in.png" alt="RelayPay Support voice page asking the caller to sign in as a customer with account email and customer ID, or continue as a guest." width="1916" height="957" loading="lazy">
+      </div>
+      <div class="shot-cap">
+        <span class="shot-n">1 · sign in</span>
+        <span class="shot-t">Before you call</span>
+        <span class="shot-d">A customer signs in with their account email and customer ID, or continues as a guest. That way the agent can greet them by name and never asks them to spell anything.</span>
+      </div>
+    </a>
+    <a href="img/relaypay-support/ready-to-call.png" class="shot" data-zoom="2 · Verified and ready to start a call">
+      <div class="frame">
+        <div class="t-bar"><div class="t-dot r"></div><div class="t-dot y"></div><div class="t-dot g"></div><span class="t-bar-label">relaypay-support</span></div>
+        <img src="img/relaypay-support/ready-to-call.png" alt="Voice page showing 'Calling as Amina Jacobs, CapeCloud, verified' with a Start call button." width="1916" height="957" loading="lazy">
+      </div>
+      <div class="shot-cap">
+        <span class="shot-n">2 · verified</span>
+        <span class="shot-t">Ready to call</span>
+        <span class="shot-d">The call starts already verified for that account, so the agent can share account details without asking security questions again.</span>
+      </div>
+    </a>
+    <a href="img/relaypay-support/live-call.png" class="shot" data-zoom="3 · A live call with captions">
+      <div class="frame">
+        <div class="t-bar"><div class="t-dot r"></div><div class="t-dot y"></div><div class="t-dot g"></div><span class="t-bar-label">relaypay-support</span></div>
+        <img src="img/relaypay-support/live-call.png" alt="A live call in progress: status Listening, End call and Mute buttons, and a caption reading 'Hi, Amina. You've reached RelayPay support. How can I help you today?'" width="1916" height="957" loading="lazy">
+      </div>
+      <div class="shot-cap">
+        <span class="shot-n">3 · live call</span>
+        <span class="shot-t">Talking to the agent</span>
+        <span class="shot-d">The agent greets the caller by name and shows full-turn captions as it speaks. Saying "that's all, bye" ends the call after the agent's goodbye.</span>
+      </div>
+    </a>
+    <a href="img/relaypay-support/support-console.png" class="shot wide" data-zoom="4 · The /review support console overview">
+      <div class="frame">
+        <div class="t-bar"><div class="t-dot r"></div><div class="t-dot y"></div><div class="t-dot g"></div><span class="t-bar-label">relaypay-support/review</span></div>
+        <img src="img/relaypay-support/support-console.png" alt="Support console overview showing 50 calls, 28% escalated to a specialist, 0.8s median time to first word, $0.70 model spend, a list of open escalations with callback times, and the agent's open tickets." width="1916" height="654" loading="lazy">
+      </div>
+      <div class="shot-cap">
+        <span class="shot-n">4 · support team</span>
+        <span class="shot-t">The /review console</span>
+        <span class="shot-d">Support agents see the last seven days at a glance: calls, escalation rate, time to first word and model spend. They also see open escalations with their booked callbacks, and their own tickets by priority.</span>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- USING IT -->
+<div class="sw" id="using-it">
+  <p class="s-eye">using it</p>
+  <h2 class="s-h">How to <span>Use It</span></h2>
+  <div class="skills-grid">
+    <div class="skill-cat">
+      <p class="sk-name">Call · customer</p>
+      <div class="card-body">
+        <p>Open the voice page and say who you are: your account email and customer ID, or continue as a guest with your name, email and company. Press <strong>Start call</strong>, confirm, and allow the microphone.</p>
+        <p>Have a reference ready for status checks (for example <code>TXN-9001</code>). Ask for a callback and pick a time, and you'll get a calendar invite with a link to join.</p>
+      </div>
+    </div>
+    <div class="skill-cat">
+      <p class="sk-name">Work the queue · support agent</p>
+      <div class="card-body">
+        <p>Accept the emailed invite (it works for 3 days), then connect your Google Calendar on your Profile page so callers can book callbacks with you.</p>
+        <p>Overview shows open escalations and your tickets. Open a ticket to see the call, the caller's details and the activity. Assign it to yourself, add notes, set the confirmed callback time, and close it with a resolution note.</p>
+      </div>
+    </div>
+    <div class="skill-cat">
+      <p class="sk-name">Run the team · admin</p>
+      <div class="card-body">
+        <p>Invite agents or admins, change roles, and check that the MCP server, Vapi and keys are configured. Set the callback order and each person's working days, hours and time zone.</p>
+        <p>Run <code>npm run eval</code> to replay the 18 test scenarios. Edit the knowledge base from the Admin page: <strong>Check changes</strong> tests an edit against 39 questions without changing anything, and <strong>Publish</strong> makes it live with no redeploy.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STACK -->
+<div class="sw" id="stack">
+  <p class="s-eye">stack</p>
+  <h2 class="s-h">Built <span>With</span></h2>
+  <div class="pills">
+    <span class="pill">Claude Agent SDK</span>
+    <span class="pill">Claude Haiku 4.5</span>
+    <span class="pill">Agent Skills</span>
+    <span class="pill">MCP Server (Streamable HTTP)</span>
+    <span class="pill">Vapi</span>
+    <span class="pill">Deepgram</span>
+    <span class="pill">Next.js</span>
+    <span class="pill">TypeScript</span>
+    <span class="pill">Supabase</span>
+    <span class="pill">Postgres Full-Text Search</span>
+    <span class="pill">Google Calendar API</span>
+    <span class="pill">Brevo</span>
+    <span class="pill">Docker</span>
+    <span class="pill">Railway</span>
+  </div>
+  <div class="cs-next" style="margin-top:4rem">
+    <a href="../index.html#projects" class="btn btn-ghost">← All projects</a>
+    <a href="lead-agent.html" class="btn btn-primary">Next: Lead Research Agent →</a>
+  </div>
+</div>
+
+<footer>
+  <p>Designed &amp; built by <a href="https://github.com/spiderc0des">Abdulrahman Yusuf</a> &nbsp;·&nbsp; 2026</p>
+</footer>
+
+<dialog id="lightbox" aria-label="Enlarged image">
+  <img src="" alt="">
+  <p class="lb-cap"></p>
+</dialog>
+
+<script src="../js/site.js"></script>
+</body>
+</html>
